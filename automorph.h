@@ -7,7 +7,7 @@
 #include <string.h>
 #include <utils.h>
 
-#define INACTIVE -1 //to mark a node that it is inaactive when basis of group is longer than partition
+#define INACTIVE -1 //to mark a node that it is inactive when basis of group is longer than partition
 
 typedef int Permutation, Coset;
 
