@@ -2,11 +2,11 @@
 /*  Date for last update: 09/01/2021
  *  Author: Goran Faisal; grnhry@gmail.com
  *
+ *  This file contains all necessary functions to deal with graphs used in this program.
  *  g_V[] is storing the current ordering of the vertices of the graph.
- *  The way cells of the partition is represented is that each cell contains
- *  two pointer to array g_V[]. First pointer refer to the first element
- *  of the cell in g_V[] and second pointer refer to the last element of the
- *  cell in g_V[].
+ *  The way cells of the partition is represented is that each cell contains two pointer 
+ *  to array g_V[]. First pointer refer to the first element of the cell in g_V[] and 
+ *  second pointer refer to the last element of the cell in g_V[].
  */
 
 #include <utils.h>
