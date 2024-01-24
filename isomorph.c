@@ -1,6 +1,4 @@
-/* Date for last update: 14/01/2021
- * Author: Goran Faisal; grnhry@gmail.com
- *
+/* 
  * This file contains all neccesary functions for isomorphism program
  * is_isomorphic() function may work as interface for isomorphism program
  */
@@ -16,7 +14,7 @@
 #define WORSE -1
 #define NOT_EXIST -1
 
-bool qsortcell(int *arr, int *degree, size_t n);
+bool qsortcell(int *arr, int *degree, unsigned long n);
 
 /******************************************************************************
  *  next_cell(partition, prev) returns next uncounted cell and assign prev
@@ -93,7 +91,7 @@ void refine(Graph_l *g, Search_Node *s, Params *params)
     Cell *cell, *cell_p, *tmp, *prev;
     int *i;
     bool is_cell_discrete;
-    size_t d;
+    unsigned long d;
 
     cell = s->p->head;
     while (cell) {
@@ -129,7 +127,7 @@ void refine(Graph_l *g, Search_Node *s, Params *params)
             cell->counted = true;
         }
 #else   //Graph adjacency list representation using array
-        size_t j;
+        unsigned long j;
         if(cell->discrete){
             for(j = 0; j < g->adjlist[*cell->first_p]->d; ++j)
                 ++params->degree[g->adjlist[*cell->first_p]->list[j]];
@@ -155,7 +153,7 @@ void refine(Graph_l *g, Search_Node *s, Params *params)
 #endif
         cell_p = s->p->head;
         d = s->nfixed;
-        size_t cell_size;
+        unsigned long cell_size;
         while(cell_p){
             tmp = cell_p->next;
             cell_size = (int)((cell_p->last_p) - (cell_p->first_p))+1;
@@ -198,7 +196,7 @@ void change_base(int d, Search_Node *last_base_change)
 {
     Group *grp;
     Search_Node *s;
-    size_t n;
+    unsigned long n;
 
     n = last_base_change->p->n;
     s = last_base_change;
@@ -265,7 +263,7 @@ void set_on_best_path(Search_Node *s, bool val)
 
 void stabilise(Graph *g, Search_Node *s, Params *params)
 {
-    size_t j, m;
+    unsigned long j, m;
     int result;
 
     m = s->nfixed;
@@ -342,7 +340,7 @@ void stabilise(Graph *g, Search_Node *s, Params *params)
             }
         }
     }
-    for(size_t t = m; t < s->nfixed; ++t)
+    for(unsigned long t = m; t < s->nfixed; ++t)
         params->degree[params->fixed_ord[t]] = 0;
     s->u = INACTIVE; //mark this search node inactive
 }
@@ -354,7 +352,7 @@ void stabilise(Graph *g, Search_Node *s, Params *params)
 bool is_equal_orderings(Graph_m *graph_m1, Graph_m *graph_m2, int *ord1, int *ord2)
 #ifdef TRIANGULAR_MATRIX
 {
-    size_t f, b, c, r;
+    unsigned long f, b, c, r;
 
     for(r = 1; r < graph_m1->n; ++r)
         for(c = 0; c < r; ++c){

@@ -1,6 +1,4 @@
-/* Date for last update: 22/04/2021
- * Author: Goran Faisal; grnhry@gmail.com
- *
+/* 
  * This file contains an efficient sorting algorithm for sorting vertices
  * according to their degree and also check if cell contains distinct degrees
  * which is used to check if partition become discrete
@@ -17,8 +15,8 @@
 #include <omp.h>
 #endif
 
-const size_t cutoff_seq_par = 160000L; //cutoff for sequential and parallel quick sort
-const size_t cutoff_ins_quk = 32L; //cutoff for insertion and quick sort
+const unsigned long cutoff_seq_par = 160000L; //cutoff for sequential and parallel quick sort
+const unsigned long cutoff_ins_quk = 32L; //cutoff for insertion and quick sort
 
 int verify_sort(int *arr, int *degree, int n)
 {
@@ -34,10 +32,10 @@ static inline void swap(int *a, int *b)
     *b = tmp;
 }
 
-static inline size_t min_ind(int *arr, int *degree, size_t p, size_t r) //find index of minimum element
+static inline unsigned long min_ind(int *arr, int *degree, unsigned long p, unsigned long r) //find index of minimum element
 {
     int min = arr[p];
-    size_t ind = p;
+    unsigned long ind = p;
     ++p;
     while(p < r+1){
         if(degree[arr[p]] < degree[min]){
@@ -49,11 +47,11 @@ static inline size_t min_ind(int *arr, int *degree, size_t p, size_t r) //find i
     return ind;
 }
 
-void insertion_sort(int *arr, int *degree, size_t p, size_t r)
+void insertion_sort(int *arr, int *degree, unsigned long p, unsigned long r)
 //constraints: p<=r
 {
     int key;
-    size_t i, j, ind;
+    unsigned long i, j, ind;
 
     ind = min_ind(arr, degree, p, r);
     swap(&arr[p], &arr[ind]);
@@ -67,7 +65,7 @@ void insertion_sort(int *arr, int *degree, size_t p, size_t r)
     }
 }
 
-int median3(int *a, int *degree, size_t p, size_t r)
+int median3(int *a, int *degree, unsigned long p, unsigned long r)
 //arr must contain at least 3 elements and p<r and r>0
 {
     int center;
@@ -85,9 +83,9 @@ int median3(int *a, int *degree, size_t p, size_t r)
     return a[r-1];
 }
 
-void sq_sort(int *arr, int *degree, size_t p, size_t r)
+void sq_sort(int *arr, int *degree, unsigned long p, unsigned long r)
 {
-    size_t i, j;
+    unsigned long i, j;
     int pivot;
 
     if((p+cutoff_ins_quk) > r){
@@ -110,9 +108,9 @@ void sq_sort(int *arr, int *degree, size_t p, size_t r)
     }
 }
 
-void pq_sort(int *arr, int *degree, size_t p, size_t r)
+void pq_sort(int *arr, int *degree, unsigned long p, unsigned long r)
 {
-    size_t i, j;
+    unsigned long i, j;
     int pivot;
 
     if((p+cutoff_ins_quk) > r){
@@ -140,7 +138,7 @@ void pq_sort(int *arr, int *degree, size_t p, size_t r)
     }
 }
 
-bool qsortcell(int *arr, int *degree, size_t n)
+bool qsortcell(int *arr, int *degree, unsigned long n)
 {
     if(n < cutoff_seq_par){
         sq_sort(arr, degree, 0, n-1);
@@ -155,7 +153,7 @@ bool qsortcell(int *arr, int *degree, size_t n)
         #endif
     }
 
-    size_t j;
+    unsigned long j;
     for(j = 1; j < n; ++j)
         if(degree[arr[j]] == degree[arr[j-1]]) return false;
     return true;

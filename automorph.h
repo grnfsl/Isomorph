@@ -45,7 +45,7 @@ typedef struct Search_Node{
     Group *grp;
     int *cell_orbits;
     int depth;
-    size_t nfixed;
+    unsigned long nfixed;
     bool on_best_path;
     struct Search_Node *next;
 } Search_Node;

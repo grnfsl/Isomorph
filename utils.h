@@ -25,8 +25,8 @@ typedef struct Graph_list{
 } Graph_list;
 
 typedef struct Graph_l{
-    size_t n;
-    size_t e;
+    unsigned long n;
+    unsigned long e;
     Graph_list* array;
 } Graph_l;
 
@@ -34,20 +34,20 @@ Graph_node* create_graph_node(unsigned int dest);
 
 #else
 typedef struct adjNode{
-    size_t len;
-    size_t d;
+    unsigned long len;
+    unsigned long d;
     unsigned int list[1];
 }adjNode;
 
 typedef struct Graph_l{
-    size_t n;
-    size_t e;
+    unsigned long n;
+    unsigned long e;
     adjNode **adjlist;
 } Graph_l;
 
 #endif
 
-Graph_l* create_graph_l(const size_t n);
+Graph_l* create_graph_l(const unsigned long n);
 void add_edge_l(Graph_l *graph, unsigned int src, unsigned int dest);
 void free_graph_l(Graph_l *graph);
 void print_graph_l(const Graph_l *graph);
@@ -56,13 +56,13 @@ void print_graph_l(const Graph_l *graph);
 //----------------------------Graph matrix representation--------------------
 
 typedef struct Graph_m{
-    size_t n;
-    size_t e;
+    unsigned long n;
+    unsigned long e;
     unsigned int size;
     int* matrix;
 } Graph_m;
 
-Graph_m* create_graph_m(size_t n);
+Graph_m* create_graph_m(unsigned long n);
 bool add_edge_m(Graph_m *graph, unsigned int src, unsigned int dest);
 void free_graph_m(Graph_m *graph);
 void print_graph_m(Graph_m *graph);
@@ -73,8 +73,8 @@ void print_graph_by_ord(const Graph_m *g, int *a, bool full_m, bool triangular_m
 //----------------------------Graph struct hold both adjacency list and matrix representation--------------------
 
 typedef struct Graph{
-    size_t n;
-    size_t e;
+    unsigned long n;
+    unsigned long e;
     Graph_l *graph_l;
     Graph_m *graph_m;
 } Graph;
@@ -92,11 +92,11 @@ typedef struct Cell{
 } Cell;
 
 typedef struct Partition{
-    size_t n;
+    unsigned long n;
     Cell *head;
 } Partition;
 
-Partition* create_partition(size_t n, int *arr_v);
+Partition* create_partition(unsigned long n, int *arr_v);
 Partition* cpy_partition(Partition *partition);
 Cell* create_cell(int *first_p, int *last_p, bool counted, bool discrete);
 void split_cell(Cell *cell, int *degree); //The cell must already be sorted

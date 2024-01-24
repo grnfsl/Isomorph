@@ -1,7 +1,5 @@
 
-/*  Date for last update: 09/01/2021
- *  Author: Goran Faisal; grnhry@gmail.com
- *
+/*  
  *  This file contains all necessary functions to deal with graphs used in this program.
  *  g_V[] is storing the current ordering of the vertices of the graph.
  *  The way cells of the partition is represented is that each cell contains two pointer 
@@ -11,7 +9,7 @@
 
 #include <utils.h>
 #include <time.h>
-void qsortcell(int *arr, size_t n);
+void qsortcell(int *arr, unsigned long n);
 
 //----------------------------Graph adjacency list representation--------------------
 
@@ -24,7 +22,7 @@ Graph_node* create_graph_node(unsigned int dest)
     return new_node;
 }
 
-Graph_l* create_graph_l(size_t v)
+Graph_l* create_graph_l(unsigned long v)
 {
     Graph_l* g = (Graph_l*) malloc(sizeof (Graph_l));
 
@@ -32,7 +30,7 @@ Graph_l* create_graph_l(size_t v)
     g->e = 0;
     g->array = (Graph_list*) malloc(v * sizeof (Graph_list));
 
-    size_t i;
+    unsigned long i;
     for(i = 0; i < v; ++i)
         g->array[i].head = NULL;
 
@@ -56,7 +54,7 @@ void add_edge_l(Graph_l* graph, unsigned int src, unsigned int dest)
 
 void free_graph_l(Graph_l* g)
 {
-    size_t i;
+    unsigned long i;
     for(i = 0; i < g->n; ++i){
         Graph_node* head = g->array[i].head;
         Graph_node* tmp;
@@ -72,7 +70,7 @@ void free_graph_l(Graph_l* g)
 
 void print_graph_l(const Graph_l* g)
 {
-    size_t v;
+    unsigned long v;
     for(v = 0; v < g->n; ++v){
         Graph_node* currenct_node = g->array[v].head;
         printf("%ld: ", v);
@@ -85,13 +83,13 @@ void print_graph_l(const Graph_l* g)
 }
 #else       //Graph adjacency list representation using array
 
-Graph_l* create_graph_l(size_t n)
+Graph_l* create_graph_l(unsigned long n)
 {
     Graph_l* g = malloc(sizeof (Graph_l));
     g->adjlist = malloc(n * sizeof (adjNode*));
     g->n = n;
     g->e = 0;
-    for(size_t i = 0; i < n; ++i){
+    for(unsigned long i = 0; i < n; ++i){
         g->adjlist[i] = malloc(sizeof (adjNode));
         g->adjlist[i]->len = 1;
         g->adjlist[i]->d = 0;
@@ -101,7 +99,7 @@ Graph_l* create_graph_l(size_t n)
 
 bool is_edge_exists(adjNode **l, unsigned int src, unsigned int dest)
 {
-    size_t i;
+    unsigned long i;
     for(i = 0; i < l[src]->d; ++i)
         if(l[src]->list[i] == dest) return true;
     return false;
@@ -130,7 +128,7 @@ void add_edge_l(Graph_l* g, unsigned int src, unsigned int dest)
 
 void free_graph_l(Graph_l *g)
 {
-    size_t i;
+    unsigned long i;
     for(i = 0; i < g->n; ++i)
         free(g->adjlist[i]);
     free(g->adjlist);
@@ -139,11 +137,11 @@ void free_graph_l(Graph_l *g)
 
 void print_graph_l(const Graph_l* g)
 {
-    size_t size;
-    for(size_t i = 0; i < g->n; ++i){
+    unsigned long size;
+    for(unsigned long i = 0; i < g->n; ++i){
         size = g->adjlist[i]->d;
         printf("%ld: ", i);
-        for(size_t j = 0; j < size; ++j)
+        for(unsigned long j = 0; j < size; ++j)
             printf("%u ", g->adjlist[i]->list[j]);
         printf("\n");
     }
@@ -155,10 +153,10 @@ void print_graph_l(const Graph_l* g)
 
 #ifdef TRIANGULAR_MATRIX
 
-Graph_m* create_graph_m(size_t n)
+Graph_m* create_graph_m(unsigned long n)
 //create triangular matrix because it is undirected graph
 {
-    size_t i;
+    unsigned long i;
 
     Graph_m* g = (Graph_m*)malloc(sizeof (Graph_m));
     g->n = n;
@@ -191,7 +189,7 @@ bool add_edge_m(Graph_m *g, unsigned int src, unsigned int dest)
 
 void print_graph_m(Graph_m* g)
 {
-    size_t i, j;
+    unsigned long i, j;
     for(i = 0; i < g->n; ++i){
         for(j = 0; j < g->n; ++j){
             if(i < j)
@@ -207,7 +205,7 @@ void print_graph_m(Graph_m* g)
 
 Graph_l* mat_to_list(Graph_m *g)
 {
-    size_t r, c, f;
+    unsigned long r, c, f;
     Graph_l *graph = create_graph_l(g->n);
     for(r = 0; r < g->n-1; ++r)
         for(c = r+1; c < g->n; ++c){
@@ -221,7 +219,7 @@ Graph_l* mat_to_list(Graph_m *g)
 //print a 1d array representing an upper triagular adjacency matrix by ordering 'a'
 void print_graph_by_ord(const Graph_m *g, int *a, bool full_m, bool triangular_m)
 {
-    size_t r, c, f;
+    unsigned long r, c, f;
     if(full_m){
         for(r = 0; r < g->n; ++r){
             for(c = 0; c < g->n; ++c){
@@ -249,9 +247,9 @@ void print_graph_by_ord(const Graph_m *g, int *a, bool full_m, bool triangular_m
 
 #else
 
-Graph_m* create_graph_m(size_t n)
+Graph_m* create_graph_m(unsigned long n)
 {
-    size_t i;
+    unsigned long i;
 
     Graph_m* g = (Graph_m*)malloc(sizeof (Graph_m));
     g->n = n;
@@ -278,7 +276,7 @@ bool add_edge_m(Graph_m *g, unsigned int src, unsigned int dest)
 
 void print_graph_m(Graph_m* g)
 {
-    size_t i, j;
+    unsigned long i, j;
     for(i = 0; i < g->n; ++i){
         for(j = 0; j < g->n; ++j)
             printf("%d ", g->matrix[i*g->n+j]);
@@ -288,7 +286,7 @@ void print_graph_m(Graph_m* g)
 
 Graph_l* mat_to_list(Graph_m *g)
 {
-    size_t r, c;
+    unsigned long r, c;
     Graph_l *graph = create_graph_l(g->n);
     for(r = 0; r < g->n-1; ++r)
         for(c = r+1; c < g->n; ++c){
@@ -300,7 +298,7 @@ Graph_l* mat_to_list(Graph_m *g)
 
 void print_graph_by_ord(const Graph_m *g, int *a, bool full_m, bool triangular_m)
 {
-    size_t r, c, f;
+    unsigned long r, c, f;
     if(full_m){
         for(r = 0; r < g->n; ++r){
             for(c = 0; c < g->n; ++c){
@@ -358,7 +356,7 @@ void free_graph(Graph *g)
 
 //---------------------------------Partition---------------------------------
 
-Partition* create_partition(size_t n, int *arr_v)
+Partition* create_partition(unsigned long n, int *arr_v)
 {
     Partition *partition = (Partition*) malloc(sizeof (Partition));
 

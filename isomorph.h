@@ -6,7 +6,7 @@
 #include <time.h>
 
 typedef struct Params{
-    size_t n;
+    unsigned long n;
     int *degree;
     int *current_ord;
     int *fixed_ord;

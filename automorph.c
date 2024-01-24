@@ -1,6 +1,4 @@
-/* Date for the last update: 14/01/2021
- * Author: Goran Faisal; grnhry@gmail.com
- *
+/* 
  * This file contains an implementation of the Schreier–Sims algorithm, 
  * which is used in the stabilise(...) function in the isomorph.c file.
  */
@@ -77,7 +75,7 @@ void add_gen(Permutation *y, Search_Node *s)
     Permutation *p;
     Generator *gen;
     int i, m, w, v;
-    size_t n;
+    unsigned long n;
 
     n = s->p->n;
 
